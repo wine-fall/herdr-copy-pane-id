@@ -1,0 +1,16 @@
+id = "wine-fall.copy-pane-id"
+name = "Copy pane id"
+version = "0.1.0"
+min_herdr_version = "0.7.0"
+description = "Copy the focused pane's id to the clipboard, or show every pane's id on its border"
+platforms = ["linux", "macos"]
+
+[[actions]]
+id = "copy-focused"
+title = "Copy focused pane id"
+command = ["bash", "scripts/copy-focused.sh"]
+
+[[actions]]
+id = "toggle-id-labels"
+title = "Toggle pane id labels"
+command = ["python3", "scripts/toggle_id_labels.py"]
