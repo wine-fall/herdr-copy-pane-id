@@ -59,21 +59,21 @@ when you toggle them off.
 
 - macOS or Linux.
 - A clipboard tool: `pbcopy` (macOS), or `wl-copy`, `xclip`, or `xsel` (Linux).
-- `python3`, for `toggle-id-labels` only. `copy-focused` needs nothing beyond a
-  shell and a clipboard tool.
+  Without one, `copy-focused` falls back to OSC 52 (see below).
+- `python3`, for `toggle-id-labels` only.
 
-## Known limitation: remote sessions
+## Remote sessions
 
-The plugin copies to the clipboard of the machine Herdr runs on. That is what
-you want for a local Herdr. If you SSH into a server and run Herdr there, the id
-lands on that server's clipboard, which usually does not exist on a headless
-box, so the copy will not reach the terminal you are sitting at.
+On a machine with no clipboard tool, typically a headless server you reach over
+SSH or as a saved Herdr machine, `copy-focused` writes an OSC 52 sequence into
+the focused pane's own terminal. Herdr parses it like any pane output and
+forwards the clipboard write to the foreground client, so the id lands on the
+clipboard of the machine you are sitting at. Your local terminal emulator must
+allow OSC 52 clipboard writes.
 
-Herdr itself handles this case for text selections by falling back to OSC 52,
-which travels back over SSH to your local terminal emulator. Plugins cannot use
-that path today: plugin stdout is captured for logs rather than connected to the
-host terminal. If Herdr ever exposes a clipboard write through the CLI, this
-plugin can use it and the limitation goes away.
+Plugin keybindings belong to the machine the plugin runs on: put the
+`[[keys.command]]` entries in the remote machine's Herdr config, not your local
+one.
 
 ## License
 
